@@ -79,10 +79,7 @@ export default function App() {
             style={styles.input}
             onChangeText={new_text => setTyped(new_text)}
             value={typed}
-            // placeholder='tutaj możesz coś napisać'
-            placeholderTextColor='#fff'
-            
-          />
+           />
           <Button
             title='Kliknij'
             onPress={handlePress}
@@ -135,10 +132,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: '#2697B6',
     borderRadius: 10,
-    padding: 30,
+    padding: 10,
     borderWidth: 2,
     overflow: 'hidden',
     color: '#fff',
+    fontSize: 12,
   },
   question: {
     borderColor: 'black',
