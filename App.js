@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState, useEffect } from 'react';
 import { ImageBackground, Button, StyleSheet, Text, TextInput, View, Image } from 'react-native';
+import axios from 'axios';
 
 class Pytanie {
   constructor(text, odp) {
@@ -17,23 +18,45 @@ class Pytanie {
   }
 }
 
-const pytania = [Pytanie.create("ile to 2?", "2"), Pytanie.create("ile to 2 + 2?", "4")];
+// const pytania = [Pytanie.create("ile to 2?", "2"), Pytanie.create("ile to 2 + 2?", "4")];
+
 
 export default function App() {
   const [typed, setTyped] = useState('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
+  const [pytania, setPytania] = useState([]);
+
+  useEffect(() => {
+    // Zastąp 'http://your-server-ip:3000' adresem twojego serwera
+    axios.get('http://192.168.100.188:3000/test')
+      .then(response => {
+        tmp = response.data;
+        const pytania2 = [];
+        tmp.forEach(element => {
+          pytania2[pytania2.length] = Pytanie.create(element.pytanie, element.odpowiedz);
+        });
+        setPytania(pytania2);
+        setAnswers("10");
+      })
+      .catch(error => {
+        console.error('There was an error fetching the users!', error);
+      });
+  }, []);
 
   const sprawdz2 = () => {
     let poprawnosc = 0;
     for (let i = 0; i < pytania.length; i++) {
-      if (pytania[i].ans === pytania[i].odp) {
+      if (pytania[i].ans.toUpperCase() === pytania[i].odp.toUpperCase()) {
         poprawnosc++;
       }
     }
 
     return (poprawnosc / pytania.length) * 100;
   };
+
+
+
 
   const handlePress = () => {
     if (typed.trim() !== '') {
@@ -60,6 +83,7 @@ export default function App() {
         <ImageBackground source={image}  resizeMode="cover" style={styles.image}>
           <Image></Image>
           <Text style={styles.question}>Twoja dokładność: {sprawdz2()}%</Text>
+          {/* sprawdz2() */}
         </ImageBackground>
       </View>
     );
