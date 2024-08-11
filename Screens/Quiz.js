@@ -73,6 +73,12 @@ export default function QuizScr({navigation, route}) {
     if (typed.trim() !== '') {
       pytania[currentQuestionIndex].dodajOdp(typed);
       setTyped('');
+      if (typed.trim().toUpperCase() === pytania[currentQuestionIndex].odp.toUpperCase().trim()){
+        alert('Dobrze!!!');
+      }
+      else{
+        alert('Źle');
+      }
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     } else {
       alert('Please enter an answer');
